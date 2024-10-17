@@ -110,17 +110,17 @@ $data_str");
               if (preg_match($name_pattern, $block, $name_matches)) {
                 $route_name = $name_matches[1];
               } else {
-                throw new HttpResponseException(ZiQian::echo('Auto Router Error.', 100000));
+                throw new HttpResponseException(ZiQian::echo('路由注册失败', 100000));
               }
               $method_pattern = '/\* method:\s*([^\s]+)/';
               $route_method = '';
               if (preg_match($method_pattern, $block, $method_matches)) {
                 $route_method = $method_matches[1];
               } else {
-                throw new HttpResponseException(ZiQian::echo('Auto Router Error.', 100000));
+                throw new HttpResponseException(ZiQian::echo('路由注册失败', 100000));
               }
               if (!$route_name || !$route_method) {
-                throw new HttpResponseException(ZiQian::echo('Auto Router Error.', 100000));
+                throw new HttpResponseException(ZiQian::echo('路由注册失败', 100000));
               }
               $query_pattern = '/\* query:\s*([^\s]+)/';
               if (preg_match($query_pattern, $block, $query_matches)) {
@@ -135,7 +135,7 @@ $data_str");
                 $route_param = '';
               }
               if (!$route_name || !$route_method) {
-                throw new HttpResponseException(ZiQian::echo('Auto Router Error.', 100000));
+                throw new HttpResponseException(ZiQian::echo('路由注册失败', 100000));
               }
               $type_pattern = '/\* type:\s*([^\s]+)/';
               if (preg_match($type_pattern, $block, $type_matches)) {
@@ -152,18 +152,46 @@ $data_str");
                     ];
                   }
                 } else {
-                  throw new HttpResponseException(ZiQian::echo('Auto Router Error.', 100000));
+                  throw new HttpResponseException(ZiQian::echo('路由注册失败', 100000));
                 }
               } else {
-                throw new HttpResponseException(ZiQian::echo('Auto Router Error.', 100000));
+                throw new HttpResponseException(ZiQian::echo('路由注册失败', 100000));
               }
             }
           }
         } else {
-          throw new HttpResponseException(ZiQian::echo('Auto Router Error.', 100000));
+          throw new HttpResponseException(ZiQian::echo('路由注册失败', 100000));
         }
       }
     }
     return $route_map;
+  }
+
+  public static function post($url, $data, $headers = [], $type = 'json')
+  {
+    $curl = curl_init();
+    curl_setopt($curl, CURLOPT_URL, $url);
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($curl, CURLOPT_POST, true);
+    if ($type === 'data') {
+      curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+      curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+      curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
+      if (count($headers) != 0) {
+        curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+      }
+    }
+    if ($type === 'json') {
+      $data_string = json_encode($data, JSON_UNESCAPED_UNICODE);
+      $headers = array_merge([
+        'Content-Type: application/json; charset=utf-8',
+        'Content-Length: ' . strlen($data_string)
+      ], $headers);
+      curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+      curl_setopt($curl, CURLOPT_POSTFIELDS, $data_string);
+    }
+    $r = curl_exec($curl);
+    curl_close($curl);
+    return $r;
   }
 }

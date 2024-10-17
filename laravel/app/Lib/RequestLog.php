@@ -42,15 +42,22 @@ class RequestLog
       self::checkLogs();
       self::$spend = ZiQian::time();
       $token = '';
+      $rc4_token_str = '';
       if (!!request()->header('Authorization')) {
         $token_arr = explode('Bearer ', request()->header('Authorization'));
         $token = $token_arr[1] ?? '';
+        $token_break = explode(':', $token);
+        if (count($token_break) == 2) {
+          $time = str_replace('TIME', '', $token_break[0]);
+          $rc4_token = $token_break[1];
+          $rc4_token_str = Rc4::decode($rc4_token, env('APP_KEY') . '|' . $time);
+        }
       }
       $uuid = Str::orderedUuid();
       $date = date('Y/m/d');
       self::$path = "log/$date/$uuid.txt";
       self::$log->uuid = $uuid;
-      self::$log->token = $token;
+      self::$log->token = $rc4_token_str;
       self::$log->ip = ZiQian::ip();
       self::$log->url = explode('?', $_SERVER['REQUEST_URI'])[0];
       self::$log->method = $_SERVER['REQUEST_METHOD'];
