@@ -43,12 +43,16 @@ class Login
         $token_break = explode(':', $token);
         if (count($token_break) != 2) return ['code' => 100004];
         $time = str_replace('TIME', '', $token_break[0]);
+        if (mb_strlen($time) != 10) return ['code' => 100004];
+        if (intval($time) < (time() - (60 * 60 * 24 * 3) - (60 * 60 * 2))) return ['code' => 100004];
         $rc4_token = $token_break[1];
         $rc4_token_str = Rc4::decode($rc4_token, env('APP_KEY') . '|' . $time);
+        if (mb_strlen($rc4_token_str) != 36) return ['code' => 100004];
+        if (count(explode('-', $rc4_token_str)) != 5) return ['code' => 100004];
         $admin_token = AdminToken::where('token', $rc4_token_str)->where('del', 2)->where('updated_at', '>', ZiQian::date(time() - (60 * 60 * 24 * 3)))->first();
         if (!$admin_token) return ['code' => 100004];
         $admin = Admin::where('id', $admin_token->admin)->where('del', 2)->where('status', 1)->first();
-        if (!$admin) return ['code' => 100004];
+        if (!$admin) return ['code' => 100005];
         self::$info = $admin;
         self::$token = $admin_token;
         self::$type = 'admin';

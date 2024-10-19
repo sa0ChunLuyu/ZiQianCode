@@ -37,7 +37,7 @@ class UploadController extends Controller
         $base64 = $request->post('base64');
         if (preg_match('/^(data:\s*image\/(\w+);base64,)/', $base64, $result)) {
             $type = ['png', 'jpeg', 'jpg', 'gif'];
-            if (!in_array($result[2], $type)) Zi::err(100014);
+            if (!in_array($result[2], $type)) Zi::err(100015);
             $md5 = md5($base64);
             $upload = Upload::where('md5', $md5)->first();
             if (!$upload) {
@@ -46,7 +46,7 @@ class UploadController extends Controller
                 $date = date('Y/m');
                 $path = "/assets/upload/image/$date/$name.$result[2]";
                 $put = $disk->put($path, base64_decode(str_replace($result[1], '', $base64)));
-                if (!$put) Zi::err(100015, ['put']);
+                if (!$put) Zi::err(100016, ['put']);
                 $save = "/storage/assets/upload/image/$date/$name.$result[2]";
                 $size = $disk->size($path);
                 $p = $disk->path($path);
@@ -65,7 +65,7 @@ class UploadController extends Controller
                 'url' => $upload->url
             ]);
         } else {
-            Zi::err(100015, ['base64']);
+            Zi::err(100016, ['base64']);
         }
     }
 }

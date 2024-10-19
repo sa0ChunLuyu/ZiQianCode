@@ -37,14 +37,9 @@ class ConfigController extends Controller
     {
         $client = $request->get('client');
         if (!$client) $client = 'public';
-        $client_map = [
-            'public' => 0,
-            'admin' => 1,
-        ];
-        $client_number = $client_map[$client];
         $config_arr = $request->post('config_arr');
         if (!$config_arr) $config_arr = [];
-        $configs = $this->self_getConfigList($config_arr, $client_number);
+        $configs = $this->self_getConfigList($config_arr, $client);
         return Zi::e($configs);
     }
 
@@ -53,7 +48,11 @@ class ConfigController extends Controller
         $config_arr = [];
         foreach ($arr as $item) $config_arr[$item] = '';
         $config_db = Config::whereIn('name', $arr);
-        if ($client != 0) $config_db->whereIn('client', [0, $client]);
+        $client_map = [
+            'public' => 0,
+            'admin' => 1
+        ];
+        if ($client != 'public') $config_db->whereIn('client', [0, $client_map[$client]]);
         $config = $config_db->get();
         foreach ($config as $item) {
             $value = $item->value;

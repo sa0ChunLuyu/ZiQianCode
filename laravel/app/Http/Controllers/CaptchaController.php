@@ -14,15 +14,15 @@ class CaptchaController extends Controller
     {
         $code = mb_strtoupper($code);
         $captcha = Captcha::where('uuid', $uuid)->first();
-        if ($captcha) return 100005;
-        if (time() - $time > 60 * 3) return 100005;
+        if ($captcha) return 100006;
+        if (time() - $time > 60 * 3) return 100006;
         if (Hash::check($code . ',Captcha,' . $uuid . ',' . $time, $hash)) {
             $captcha = new Captcha();
             $captcha->uuid = $uuid;
             $captcha->save();
             return 0;
         } else {
-            return 100006;
+            return 100007;
         }
     }
 

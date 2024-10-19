@@ -34,9 +34,9 @@ class UpdateAdminInfo extends FormRequest
   public function messages()
   {
     return [
-      'nickname.required' => 100011,
-      'nickname.between' => 100012,
-      'avatar.between' => 100013,
+      'nickname.required' => 100012,
+      'nickname.between' => 100013,
+      'avatar.between' => 100014,
     ];
   }
 

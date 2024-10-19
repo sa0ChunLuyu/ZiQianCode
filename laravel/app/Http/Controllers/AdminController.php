@@ -53,7 +53,7 @@ class AdminController extends Controller
         Login::admin(['/admin/list']);
         $account = $request->post('account');
         $admin_account = AdminAccount::where('account', $account)->where('type', 1)->where('del', 2)->first();
-        if ($admin_account) Zi::err(100019);
+        if ($admin_account) Zi::err(100020);
         $admin = new Admin();
         $admin->nickname = $request->post('nickname');
         $admin->avatar = $request->post('avatar') ?? '';
@@ -81,7 +81,7 @@ class AdminController extends Controller
         $id = $request->post('id');
         $account = $request->post('account');
         $admin_account = AdminAccount::where('admin', '!=', $id)->where('account', $account)->where('type', 1)->where('del', 2)->first();
-        if ($admin_account) Zi::err(100019);
+        if ($admin_account) Zi::err(100020);
         $admin = Admin::where('id', $id)->where('del', 2)->first();
         if (!$admin) Zi::err(100001, ['管理员']);
         $admin_account = AdminAccount::where('admin', $id)->where('del', 2)->first();
@@ -264,10 +264,8 @@ class AdminController extends Controller
         if (!$admin) Zi::err(100001, ['账号']);
         Login::$info = $admin;
         Login::$type = 'admin';
-        $token = $this->self_createToken($admin, $type);
-        return Zi::e([
-            'token' => $token
-        ]);
+        $this->self_createToken($admin, $type);
+        return Zi::e();
     }
 
     public function self_createToken($admin, $type = 1)
@@ -309,10 +307,7 @@ class AdminController extends Controller
                     'del' => 1
                 ]);
         }
-        $time = time();
-        $rc4_token = Rc4::encode($token_str, env('APP_KEY') . '|' . $time);
-        $ret_token = "TIME{$time}:{$rc4_token}";
-        return $ret_token;
+        Login::$token = $token;
     }
 
     /***auto route

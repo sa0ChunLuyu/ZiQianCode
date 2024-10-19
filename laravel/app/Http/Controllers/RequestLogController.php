@@ -83,7 +83,7 @@ class RequestLogController extends Controller
       date('Y-m', strtotime($start_time)),
       date('Y-m', strtotime($end_time)),
     ];
-    if ($ym_check[0] !== $ym_check[1]) Zi::err(100020);
+    if ($ym_check[0] !== $ym_check[1]) Zi::err(100021);
     $table_name = 'zz_request_log_' . date('ym', strtotime($start_time));
     $table_count = DB::select('select count(1) as c from information_schema.TABLES where table_schema = ? and table_name = ?', [env('DB_DATABASE'), $table_name])[0];
     if ($table_count->c === 0) Zi::err(100001, ['日志表']);

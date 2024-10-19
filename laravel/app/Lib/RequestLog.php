@@ -51,6 +51,8 @@ class RequestLog
           $time = str_replace('TIME', '', $token_break[0]);
           $rc4_token = $token_break[1];
           $rc4_token_str = Rc4::decode($rc4_token, env('APP_KEY') . '|' . $time);
+          if (mb_strlen($rc4_token_str) != 36) $rc4_token_str = '';
+          if (count(explode('-', $rc4_token_str)) != 5) $rc4_token_str = '';
         }
       }
       $uuid = Str::orderedUuid();

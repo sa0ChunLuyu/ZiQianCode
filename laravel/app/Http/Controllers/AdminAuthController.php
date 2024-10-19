@@ -51,7 +51,7 @@ class AdminAuthController extends Controller
     public function menu()
     {
         Login::admin();
-        $menu_group = AdminAuth::select('id', 'name', 'title', 'icon', 'status', 'type')
+        $menu_group = AdminAuth::select('id', 'path', 'title', 'icon', 'status', 'type')
             ->where('pid', 0)->where('show', 1)->where('del', 2)
             ->orderBy('order', 'desc')->get();
         $list = [];
@@ -59,7 +59,7 @@ class AdminAuthController extends Controller
             if ($item->type == 2) {
                 $list[] = [
                     "id" => $item->id,
-                    "name" => $item->name,
+                    "path" => $item->path,
                     "title" => $item->title,
                     "icon" => $item->icon,
                     "status" => $item->status,
@@ -68,19 +68,19 @@ class AdminAuthController extends Controller
             } else {
                 switch (Login::$info->admin_group) {
                     case -1:
-                        $auth_list = AdminAuth::select('id', 'name', 'title', 'icon', 'status')->where('pid', $item->id)
+                        $auth_list = AdminAuth::select('id', 'path', 'title', 'icon', 'status')->where('pid', $item->id)
                             ->where('type', 2)->where('show', 1)->where('status', 1)->where('del', 2)
                             ->orderBy('order', 'desc')->get();
                         break;
                     case 0:
-                        $auth_list = AdminAuth::select('id', 'name', 'title', 'icon', 'status')->where('pid', $item->id)
+                        $auth_list = AdminAuth::select('id', 'path', 'title', 'icon', 'status')->where('pid', $item->id)
                             ->where('type', 2)->where('check_type', 1)->where('show', 1)->where('status', 1)->where('del', 2)
                             ->orderBy('order', 'desc')->get();
                         break;
                     default:
                         $admin_auth = AdminGroup::find(Login::$info->admin_group);
                         $auths = json_decode($admin_auth->admin_auths, true);
-                        $auth_list = AdminAuth::select('id', 'name', 'title', 'icon', 'status')
+                        $auth_list = AdminAuth::select('id', 'path', 'title', 'icon', 'status')
                             ->where(function ($query) use ($auths, $item) {
                                 $query->whereIn('id', $auths)->where('pid', $item->id)
                                     ->where('type', 2)->where('check', 1)
@@ -97,7 +97,7 @@ class AdminAuthController extends Controller
                 if (count($auth_list) !== 0) {
                     $list[] = [
                         "id" => $item->id,
-                        "name" => $item->name,
+                        "path" => $item->path,
                         "title" => $item->title,
                         "icon" => $item->icon,
                         "status" => $item->status,

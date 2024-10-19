@@ -33,8 +33,8 @@ class ChangeAdminPassword extends FormRequest
   public function messages()
   {
     return [
-      'password.required' => 100008,
-      'password.between' => 100009,
+      'password.required' => 100009,
+      'password.between' => 100010,
     ];
   }
 

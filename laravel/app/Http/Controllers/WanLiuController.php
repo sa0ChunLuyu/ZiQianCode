@@ -40,10 +40,10 @@ class WanLiuController extends Controller
     if (!$token) Zi::err(100004);
     $token_appid = $request->post('token_appid');
     $wanliu_id = env('WANLIU_ID');
-    if ($wanliu_id == 'wl00000000') Zi::err(100021, [$check_type . '权限']);
-    if ($wanliu_id != $token_appid) Zi::err(100021, [$check_type . '权限']);
+    if ($wanliu_id == 'wl00000000') Zi::err(100022, [$check_type . '权限']);
+    if ($wanliu_id != $token_appid) Zi::err(100022, [$check_type . '权限']);
     $token_time = $request->post('token_time');
-    if (time() - (60 * 3) > $token_time) Zi::err(100021, [$check_type . '权限']);
+    if (time() - (60 * 3) > $token_time) Zi::err(100022, [$check_type . '权限']);
     $token_noise = $request->post('token_noise');
     $wanliu_secret = env('WANLIU_SECRET');
     $sign = [
@@ -53,7 +53,7 @@ class WanLiuController extends Controller
       'noise' => $token_noise,
     ];
     $true_token = md5(json_encode($sign, JSON_UNESCAPED_UNICODE));
-    if ($true_token != $token) Zi::err(100021, [$check_type . '权限']);
+    if ($true_token != $token) Zi::err(100022, [$check_type . '权限']);
   }
   /***auto route
    * name: token
@@ -94,10 +94,10 @@ class WanLiuController extends Controller
     $disk = Storage::disk('public');
     $file_name = $request->post('file_name');
     $file_name_arr = explode('.', $file_name);
-    if (count($file_name_arr) < 2) Zi::err(100021, ['文件后缀名']);
+    if (count($file_name_arr) < 2) Zi::err(100022, ['文件后缀名']);
     $file_ext = $file_name_arr[count($file_name_arr) - 1];
     $error_type_arr = [];
-    if (in_array($file_ext, $error_type_arr)) Zi::err(100022, [$file_ext]);
+    if (in_array($file_ext, $error_type_arr)) Zi::err(100023, [$file_ext]);
     if ($type == 'Multipart') {
       $md5 = $request->post('md5');
       $upload = Upload::where('md5', $md5)->first();
@@ -115,7 +115,7 @@ class WanLiuController extends Controller
           }
           for ($i = 0; $i < count($multipart_arr); $i++) {
             if (!in_array($i + 1, $multipart_arr)) {
-              Zi::err(100021, ['文件完整性']);
+              Zi::err(100022, ['文件完整性']);
             }
           }
           $name = Str::orderedUuid();
@@ -133,7 +133,7 @@ class WanLiuController extends Controller
           $file_md5 = md5_file($output_file_path);
           if ($file_md5 != $md5) {
             unlink($output_file_path);
-            Zi::err(100021, ['文件完整性']);
+            Zi::err(100022, ['文件完整性']);
           }
           for ($i = 0; $i < count($multipart_arr); $i++) {
             $chunk_index = $i + 1;
@@ -152,7 +152,7 @@ class WanLiuController extends Controller
           $upload->ext = $file_ext;
           $upload->md5 = $md5;
           $upload->save();
-          return Zi::err([
+          return Zi::e([
             'url' => $upload->url
           ]);
         } else {

@@ -119,6 +119,15 @@ class PushAuthData extends Migration
       'check' => '1',
       'show' => '1',
       'message' => '该账号所属权限组不能查看IP解析库'
+    ], [
+      'path' => '/config/database',
+      'title' => 'QD数据库',
+      'icon' => 'data',
+      'pid' => '6',
+      'type' => '2',
+      'check' => '1',
+      'show' => '2',
+      'message' => '该账号所属权限组不能查看QD数据库'
     ]];
     foreach ($data as $datum) {
       $auth = new App\Models\AdminAuth();

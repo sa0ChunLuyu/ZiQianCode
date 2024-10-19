@@ -31,8 +31,8 @@ class AdminAccountController extends Controller
             ->where('del', 2)
             ->first();
         if (!$admin_account) Zi::err(100001, ['账号']);
-        if (!password_verify($old_password, $admin_account->secret)) Zi::err(100007);
-        if ($old_password == $password) Zi::err(100008);
+        if (!password_verify($old_password, $admin_account->secret)) Zi::err(100008);
+        if ($old_password == $password) Zi::err(100009);
         $admin_account->secret = bcrypt($password);
         $admin_account->save();
         if (Login::$info->initial_password == 1) {

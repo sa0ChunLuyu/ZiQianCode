@@ -7,6 +7,12 @@ class ZiQian
 {
   public static function exit($data = [])
   {
+    if (!!Login::$token) {
+      $time = time();
+      $rc4_token = Rc4::encode(Login::$token->token, env('APP_KEY') . '|' . $time);
+      $ret_token = "TIME{$time}:{$rc4_token}";
+      $data['token'] = $ret_token;
+    }
     $res = $data;
     if ($_SERVER['REQUEST_METHOD'] !== 'OPTIONS' && env('REQUEST_LOG') && !!RequestLog::$log) {
       $data_str = !!$data ? json_encode($data, JSON_UNESCAPED_UNICODE) : '{}';

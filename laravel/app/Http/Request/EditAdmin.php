@@ -36,13 +36,13 @@ class EditAdmin extends FormRequest
   public function messages()
   {
     return [
-      'account.required' => 100016,
-      'account.between' => 100017,
-      'nickname.required' => 100011,
-      'nickname.between' => 100012,
-      'avatar.between' => 100013,
-      'password.required' => 100018,
-      'password.between' => 100010,
+      'account.required' => 100017,
+      'account.between' => 100018,
+      'nickname.required' => 100012,
+      'nickname.between' => 100013,
+      'avatar.between' => 100014,
+      'password.required' => 100019,
+      'password.between' => 100011,
     ];
   }
 
