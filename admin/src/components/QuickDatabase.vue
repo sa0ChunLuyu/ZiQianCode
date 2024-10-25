@@ -557,6 +557,8 @@ onMounted(() => {
     </div>
   </el-drawer>
   <el-dialog
+    :close-on-click-modal="false"
+    :close-on-press-escape="false"
     v-if="!!database_info"
     v-model="edit_show"
     :title="edit_data.id === 0 ? '新建' : '编辑'"
