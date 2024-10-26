@@ -13,7 +13,8 @@
     --el-font-size-base: 14px;
     --el-font-size-small: 13px;
     --el-font-size-extra-small: 12px;
-    --el-font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+    --el-font-family: "Helvetica Neue", Helvetica, "PingFang SC",
+      "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
     --el-font-weight-primary: 500;
     --el-font-line-height-primary: 24px;
     --el-index-normal: 1;
@@ -22,18 +23,32 @@
     --el-border-radius-base: 0;
     --el-border-radius-small: 0;
     --el-border-radius-round: 0;
+    --el-tag-border-radius: 0;
     --el-border-radius-circle: 100%;
     --el-transition-duration: 0.3s;
     --el-transition-duration-fast: 0.2s;
-    --el-transition-function-ease-in-out-bezier: cubic-bezier(0.645, 0.045, 0.355, 1);
+    --el-transition-function-ease-in-out-bezier: cubic-bezier(
+      0.645,
+      0.045,
+      0.355,
+      1
+    );
     --el-transition-function-fast-bezier: cubic-bezier(0.23, 1, 0.32, 1);
-    --el-transition-all: all var(--el-transition-duration) var(--el-transition-function-ease-in-out-bezier);
-    --el-transition-fade: opacity var(--el-transition-duration) var(--el-transition-function-fast-bezier);
-    --el-transition-md-fade: transform var(--el-transition-duration) var(--el-transition-function-fast-bezier), opacity var(--el-transition-duration) var(--el-transition-function-fast-bezier);
+    --el-transition-all: all var(--el-transition-duration)
+      var(--el-transition-function-ease-in-out-bezier);
+    --el-transition-fade: opacity var(--el-transition-duration)
+      var(--el-transition-function-fast-bezier);
+    --el-transition-md-fade: transform var(--el-transition-duration)
+        var(--el-transition-function-fast-bezier),
+      opacity var(--el-transition-duration)
+        var(--el-transition-function-fast-bezier);
     --el-transition-fade-linear: opacity var(--el-transition-duration-fast) linear;
-    --el-transition-border: border-color var(--el-transition-duration-fast) var(--el-transition-function-ease-in-out-bezier);
-    --el-transition-box-shadow: box-shadow var(--el-transition-duration-fast) var(--el-transition-function-ease-in-out-bezier);
-    --el-transition-color: color var(--el-transition-duration-fast) var(--el-transition-function-ease-in-out-bezier);
+    --el-transition-border: border-color var(--el-transition-duration-fast)
+      var(--el-transition-function-ease-in-out-bezier);
+    --el-transition-box-shadow: box-shadow var(--el-transition-duration-fast)
+      var(--el-transition-function-ease-in-out-bezier);
+    --el-transition-color: color var(--el-transition-duration-fast)
+      var(--el-transition-function-ease-in-out-bezier);
     --el-component-size-large: 40px;
     --el-component-size: 32px;
     --el-component-size-small: 24px;
@@ -101,10 +116,12 @@
     --el-fill-color-dark: #ebedf0;
     --el-fill-color-darker: #e6e8eb;
     --el-fill-color-blank: #ffffff;
-    --el-box-shadow: 0px 12px 32px 4px rgba(0, 0, 0, 0.04), 0px 8px 20px rgba(0, 0, 0, 0.08);
+    --el-box-shadow: 0px 12px 32px 4px rgba(0, 0, 0, 0.04),
+      0px 8px 20px rgba(0, 0, 0, 0.08);
     --el-box-shadow-light: 0px 0px 12px rgba(0, 0, 0, 0.12);
     --el-box-shadow-lighter: 0px 0px 6px rgba(0, 0, 0, 0.12);
-    --el-box-shadow-dark: 0px 16px 48px 16px rgba(0, 0, 0, 0.08), 0px 12px 32px rgba(0, 0, 0, 0.12), 0px 8px 16px -8px rgba(0, 0, 0, 0.16);
+    --el-box-shadow-dark: 0px 16px 48px 16px rgba(0, 0, 0, 0.08),
+      0px 12px 32px rgba(0, 0, 0, 0.12), 0px 8px 16px -8px rgba(0, 0, 0, 0.16);
     --el-disabled-bg-color: var(--el-fill-color-light);
     --el-disabled-text-color: var(--el-text-color-placeholder);
     --el-disabled-border-color: var(--el-border-color-light);
@@ -116,16 +133,18 @@
     --el-border-width: 1px;
     --el-border-style: solid;
     --el-border-color-hover: var(--el-text-color-disabled);
-    --el-border: var(--el-border-width) var(--el-border-style) var(--el-border-color);
+    --el-border: var(--el-border-width) var(--el-border-style)
+      var(--el-border-color);
     --el-svg-monochrome-grey: var(--el-border-color);
-}
-
-.el-popper,
-.el-notification,
-.el-message-box,
-.el-color-picker__trigger,
-.el-color-predefine__color-selector > div,
-.el-card {
+  }
+  
+  .el-popper,
+  .el-notification,
+  .el-message-box,
+  .el-color-picker__trigger,
+  .el-tag,
+  .el-color-predefine__color-selector > div,
+  .el-card {
     border-radius: 0 !important;
-}
-
+  }
+  

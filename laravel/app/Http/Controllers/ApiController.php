@@ -10,7 +10,7 @@ class ApiController extends Controller
 {
   public function map(Request $request)
   {
-    $base_url = env('APP_URL');
+    $base_url = request()->getSchemeAndHttpHost();
     $list = [
       'apiHo' => $base_url . '/api/ho'
     ];
