@@ -4,51 +4,49 @@
  * user：sa0ChunLuyu
  * date：2023年6月5日 14:04:22
  */
-import {
-  $api,
-  $image,
-  $response
-} from '~/api'
-import {onMounted} from "vue";
+import { $api, $image, $response } from "~/api";
+import { onMounted } from "vue";
 
 const $props = defineProps({
   content: {
     type: String,
-    default: ''
+    default: "",
   },
   width: {
     type: Number,
-    default: 1000
-  }
-})
+    default: 1000,
+  },
+});
 
 onBeforeUnmount(() => {
-  tinymce.remove()
-})
+  tinymce.remove();
+});
 
 onMounted(() => {
-  createTinymce()
-})
+  createTinymce();
+});
 
 const createTinymce = () => {
   tinymce.init({
     selector: `#editor`,
-    language: 'zh_CN',
+    language: "zh_CN",
     plugins: "code image axupimgs",
-    toolbar: 'undo redo ' +
-        '| code axupimgs' +
-        '| formatselect fontselect fontsizeselect ' +
-        '| bold italic underline strikethrough ' +
-        '| alignleft aligncenter alignright alignjustify ' +
-        '| cut copy paste ' +
-        '| bullist numlist ' +
-        '| outdent indent ' +
-        '| blockquote removeformat ' +
-        '| subscript superscript',
+    toolbar:
+      "undo redo " +
+      "| code axupimgs" +
+      "| formatselect fontselect fontsizeselect " +
+      "| bold italic underline strikethrough " +
+      "| alignleft aligncenter alignright alignjustify " +
+      "| cut copy paste " +
+      "| bullist numlist " +
+      "| outdent indent " +
+      "| blockquote removeformat " +
+      "| subscript superscript",
     menubar: false,
     width: $props.width,
     height: 300,
     branding: false,
+    content_style: "img {max-width:100%;height:auto}",
     images_upload_handler: function (blobInfo, succFun) {
       let file = blobInfo.blob();
       if (window.FileReader) {
@@ -56,34 +54,37 @@ const createTinymce = () => {
         reader.readAsDataURL(file);
         reader.onloadend = async (e) => {
           const base64 = e.target.result;
-          const response = await $api('AdminUploadImage', {
-            base64
-          })
+          const response = await $api("AdminUploadImage", {
+            base64,
+          });
           $response(response, () => {
             succFun($image(response.data.url));
-          })
+          });
         };
       }
-    }
+    },
   });
-  tinymce.activeEditor.setContent($props.content)
-}
+  tinymce.activeEditor.setContent($props.content);
+};
 
 const getContent = () => {
-  return tinymce.activeEditor.getContent()
-}
+  return tinymce.activeEditor.getContent();
+};
 const getText = () => {
   let activeEditor = tinymce.activeEditor;
   let editBody = activeEditor.getBody();
   activeEditor.selection.select(editBody);
-  let text = activeEditor.selection.getContent({format: 'text'})
-  return text.split('\n').join('').replace(/^\s+|\s+$/g, "")
-}
+  let text = activeEditor.selection.getContent({ format: "text" });
+  return text
+    .split("\n")
+    .join("")
+    .replace(/^\s+|\s+$/g, "");
+};
 
 defineExpose({
   getContent,
-  getText
-})
+  getText,
+});
 </script>
 <template>
   <div>
@@ -109,4 +110,3 @@ defineExpose({
   position: relative;
 }
 </style>
-
