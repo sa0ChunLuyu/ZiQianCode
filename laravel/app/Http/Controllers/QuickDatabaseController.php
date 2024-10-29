@@ -58,10 +58,19 @@ class QuickDatabaseController extends Controller
                         $data->where(function ($query) use ($value, $where_array) {
                             $index = 0;
                             foreach ($where_array as $key => $where) {
+
                                 if ($index == 0) {
-                                    $query->where($where['key'], $where['type'], $where['type'] == 'like' ? '%' . $value . '%' : $value);
+                                    if ($where['type'] == 'id-like') {
+                                        $query->where($where['key'], 'like', '%"' . $value . '"%');
+                                    } else {
+                                        $query->where($where['key'], $where['type'], $where['type'] == 'like' ? '%' . $value . '%' : $value);
+                                    }
                                 } else {
-                                    $query->orWhere($where['key'], $where['type'], $where['type'] == 'like' ? '%' . $value . '%' : $value);
+                                    if ($where['type'] == 'id-like') {
+                                        $query->orWhere($where['key'], 'like', '%"' . $value . '"%');
+                                    } else {
+                                        $query->orWhere($where['key'], $where['type'], $where['type'] == 'like' ? '%' . $value . '%' : $value);
+                                    }
                                 }
                                 $index++;
                             }

@@ -616,7 +616,7 @@ onMounted(() => {
                     v-for="(iii, iik) in ii.select"
                     :key="iik"
                     :label="iii.label"
-                    :value="iii.value"
+                    :value="String(iii.value)"
                   ></el-option>
                 </el-select>
               </template>
