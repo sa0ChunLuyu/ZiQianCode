@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
-$route_map = ZiQian::route();
+$route_map = ZiQian::route('include');
 foreach ($route_map as $item) {
     $url = 'api/' . ucfirst($item['type']) . '/' . $item['class'] . '/' . $item['name'] . $item['param'];
     $method = 'Route::' . $item['method'];
